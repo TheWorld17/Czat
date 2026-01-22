@@ -4,7 +4,7 @@ import { formatDistanceToNow } from 'date-fns';
 import { Chat, User } from '../types';
 import { chatService } from '../services/chatService';
 import Avatar from '../components/Avatar';
-import { Edit, Search, LogOut, UserPlus, X } from 'lucide-react';
+import { Search, LogOut, UserPlus, X } from 'lucide-react';
 import { AuthContext } from '../App';
 
 const ChatList = () => {
@@ -13,7 +13,7 @@ const ChatList = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [searchResults, setSearchResults] = useState<User[]>([]);
   const [isSearching, setIsSearching] = useState(false);
-  
+
   const navigate = useNavigate();
   const { logout } = React.useContext(AuthContext);
 
@@ -71,23 +71,23 @@ const ChatList = () => {
           </div>
           <div className="flex gap-2">
             <button onClick={logout} className="p-2 rounded-full bg-slate-100 text-slate-600 hover:bg-slate-200 transition-colors">
-                <LogOut className="w-5 h-5" />
+              <LogOut className="w-5 h-5" />
             </button>
           </div>
         </div>
-        
+
         {/* Search */}
         <div className="relative">
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
-          <input 
-            type="text" 
-            placeholder="Search users by email..." 
+          <input
+            type="text"
+            placeholder="Search users by email..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
             className="w-full bg-slate-100 text-slate-900 text-sm rounded-xl py-2 pl-9 pr-8 focus:outline-none focus:ring-2 focus:ring-blue-500/20"
           />
           {searchTerm && (
-            <button 
+            <button
               onClick={() => setSearchTerm('')}
               className="absolute right-2 top-1/2 -translate-y-1/2 text-slate-400 p-1"
             >
@@ -102,46 +102,46 @@ const ChatList = () => {
         {/* Search Results Overlay */}
         {searchTerm.length > 0 && (
           <div className="absolute z-20 top-[110px] left-0 right-0 bottom-0 bg-white/95 backdrop-blur-sm p-4">
-             <h3 className="text-xs font-bold text-slate-400 uppercase mb-3">Found Users</h3>
-             {isSearching ? (
-               <div className="text-center py-4 text-slate-500">Searching...</div>
-             ) : searchResults.length === 0 ? (
-               <div className="text-center py-4 text-slate-500">No users found</div>
-             ) : (
-               <ul>
-                 {searchResults.map(user => (
-                   <li key={user.userId}>
-                     <button
-                        onClick={() => handleStartChat(user.userId)}
-                        className="w-full px-4 py-3 flex items-center gap-3 hover:bg-slate-50 rounded-xl transition-colors text-left"
-                     >
-                       <Avatar name={user.displayName} size="md" />
-                       <div>
-                         <p className="font-semibold text-slate-900">{user.displayName}</p>
-                         <p className="text-sm text-slate-500">{user.email}</p>
-                       </div>
-                       <UserPlus className="w-5 h-5 text-blue-500 ml-auto" />
-                     </button>
-                   </li>
-                 ))}
-               </ul>
-             )}
+            <h3 className="text-xs font-bold text-slate-400 uppercase mb-3">Found Users</h3>
+            {isSearching ? (
+              <div className="text-center py-4 text-slate-500">Searching...</div>
+            ) : searchResults.length === 0 ? (
+              <div className="text-center py-4 text-slate-500">No users found</div>
+            ) : (
+              <ul>
+                {searchResults.map(user => (
+                  <li key={user.userId}>
+                    <button
+                      onClick={() => handleStartChat(user.userId)}
+                      className="w-full px-4 py-3 flex items-center gap-3 hover:bg-slate-50 rounded-xl transition-colors text-left"
+                    >
+                      <Avatar name={user.displayName} size="md" />
+                      <div>
+                        <p className="font-semibold text-slate-900">{user.displayName}</p>
+                        <p className="text-sm text-slate-500">{user.email}</p>
+                      </div>
+                      <UserPlus className="w-5 h-5 text-blue-500 ml-auto" />
+                    </button>
+                  </li>
+                ))}
+              </ul>
+            )}
           </div>
         )}
 
         {/* Chats List */}
         {loading ? (
-           <div className="p-4 space-y-4">
-             {[1, 2, 3].map((i) => (
-               <div key={i} className="flex gap-3 animate-pulse">
-                 <div className="w-12 h-12 bg-slate-200 rounded-full" />
-                 <div className="flex-1 space-y-2 py-1">
-                   <div className="h-4 bg-slate-200 rounded w-1/3" />
-                   <div className="h-3 bg-slate-200 rounded w-3/4" />
-                 </div>
-               </div>
-             ))}
-           </div>
+          <div className="p-4 space-y-4">
+            {[1, 2, 3].map((i) => (
+              <div key={i} className="flex gap-3 animate-pulse">
+                <div className="w-12 h-12 bg-slate-200 rounded-full" />
+                <div className="flex-1 space-y-2 py-1">
+                  <div className="h-4 bg-slate-200 rounded w-1/3" />
+                  <div className="h-3 bg-slate-200 rounded w-3/4" />
+                </div>
+              </div>
+            ))}
+          </div>
         ) : chats.length === 0 ? (
           <div className="flex flex-col items-center justify-center h-64 text-slate-500 px-6 text-center">
             <MessageCircle className="w-12 h-12 mb-3 text-slate-300" />
@@ -156,12 +156,12 @@ const ChatList = () => {
                   onClick={() => handleChatClick(chat.chatId)}
                   className="w-full px-4 py-3 flex items-center gap-3 hover:bg-slate-50 transition-colors text-left"
                 >
-                  <Avatar 
-                    name={chat.otherUser?.displayName || 'User'} 
-                    src={chat.otherUser?.photoURL} 
-                    isOnline={chat.otherUser?.isOnline} 
+                  <Avatar
+                    name={chat.otherUser?.displayName || 'User'}
+                    src={chat.otherUser?.photoURL}
+                    isOnline={chat.otherUser?.isOnline}
                   />
-                  
+
                   <div className="flex-1 min-w-0">
                     <div className="flex justify-between items-baseline mb-0.5">
                       <h3 className="font-semibold text-slate-900 truncate pr-2">

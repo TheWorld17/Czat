@@ -1,23 +1,22 @@
-import { 
-  collection, 
-  query, 
-  where, 
-  orderBy, 
-  addDoc, 
-  onSnapshot, 
-  doc, 
-  updateDoc, 
-  getDocs, 
-  setDoc, 
+import {
+  collection,
+  query,
+  where,
+  orderBy,
+  addDoc,
+  onSnapshot,
+  doc,
+  updateDoc,
+  getDocs,
+  setDoc,
   getDoc,
-  Timestamp,
   serverTimestamp,
   limit
 } from 'firebase/firestore';
-import { 
-  signInWithEmailAndPassword, 
-  createUserWithEmailAndPassword, 
-  signOut, 
+import {
+  signInWithEmailAndPassword,
+  createUserWithEmailAndPassword,
+  signOut,
   updateProfile,
   User as FirebaseUser
 } from 'firebase/auth';
@@ -26,7 +25,7 @@ import { User, Chat, Message, MessageStatus } from '../types';
 
 class ChatService {
   // --- Auth ---
-  
+
   getCurrentUser(): User | null {
     const fbUser = auth.currentUser;
     if (!fbUser) return null;
@@ -49,7 +48,7 @@ class ChatService {
   async register(email: string, password: string, displayName: string): Promise<User> {
     const userCredential = await createUserWithEmailAndPassword(auth, email, password);
     await updateProfile(userCredential.user, { displayName });
-    
+
     // Створюємо документ користувача в Firestore
     const newUser: User = {
       userId: userCredential.user.uid,
@@ -79,7 +78,7 @@ class ChatService {
     } catch (e) {
       console.warn("Could not update user status on logout", e);
     }
-    
+
     // Always sign out
     await signOut(auth);
   }
@@ -97,22 +96,22 @@ class ChatService {
   // Підписка на список чатів
   subscribeToChats(callback: (chats: Chat[]) => void): () => void {
     const user = auth.currentUser;
-    if (!user) return () => {};
+    if (!user) return () => { };
 
     // REMOVED orderBy('lastMessageAt', 'desc') to avoid needing a composite index in Firestore.
     // We will sort the results client-side instead.
     const q = query(
-      collection(db, 'chats'), 
+      collection(db, 'chats'),
       where('participants', 'array-contains', user.uid)
     );
 
     return onSnapshot(q, async (snapshot) => {
-      
+
       // Нам потрібно отримати дані іншого користувача для кожного чату
       const promises = snapshot.docs.map(async (docSnap) => {
         const data = docSnap.data();
         const otherUserId = data.participants.find((uid: string) => uid !== user.uid);
-        
+
         let otherUser: User | undefined;
         if (otherUserId) {
           const userSnap = await getDoc(doc(db, 'users', otherUserId));
@@ -138,7 +137,7 @@ class ChatService {
       });
 
       const resolvedChats = await Promise.all(promises);
-      
+
       // Client-side sorting
       resolvedChats.sort((a, b) => {
         const timeA = a.lastMessageAt ? a.lastMessageAt.getTime() : 0;
@@ -157,12 +156,12 @@ class ChatService {
     // У реальному додатку краще використовувати Algolia або просто шукати по email
     const usersRef = collection(db, 'users');
     const q = query(
-      usersRef, 
-      where('email', '>=', searchTerm), 
+      usersRef,
+      where('email', '>=', searchTerm),
       where('email', '<=', searchTerm + '\uf8ff'),
       limit(5)
     );
-    
+
     const snapshot = await getDocs(q);
     return snapshot.docs
       .map(d => this.mapFirestoreUser(d.data(), d.id))
@@ -176,7 +175,7 @@ class ChatService {
 
     // Перевірка чи чат вже існує
     const q = query(
-      collection(db, 'chats'), 
+      collection(db, 'chats'),
       where('participants', 'array-contains', currentUser.uid)
     );
     const snapshot = await getDocs(q);
@@ -262,7 +261,7 @@ class ChatService {
     await updateDoc(chatRef, {
       [`unreadCounts.${currentUser.uid}`]: 0
     });
-    
+
     // Примітка: Оновлення статусу кожного окремого повідомлення на 'READ'
     // може бути дорогим (багато операцій запису). 
     // Зазвичай достатньо знати lastReadTimestamp, але для демо оновлювати статус повідомлень не будемо масово,

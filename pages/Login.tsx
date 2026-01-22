@@ -1,12 +1,12 @@
-import React, { useState, useContext } from 'react';
-import { AuthContext } from '../App';
+import React, { useState } from 'react';
+// import { AuthContext } from '../App';
 import Input from '../components/Input';
 import Button from '../components/Button';
 import { MessageCircle } from 'lucide-react';
 import { chatService } from '../services/chatService';
 
 const Login = () => {
-  const { login } = useContext(AuthContext);
+  // const { login } = useContext(AuthContext); // Unused, avoiding TS error
   const [isRegistering, setIsRegistering] = useState(false);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -32,7 +32,7 @@ const Login = () => {
     } catch (err: any) {
       console.error(err);
       let msg = "Something went wrong. Check your credentials.";
-      
+
       if (err.code === 'auth/invalid-credential' || err.code === 'auth/user-not-found' || err.code === 'auth/wrong-password') {
         msg = "Invalid email or password.";
       } else if (err.code === 'auth/email-already-in-use') {
@@ -51,7 +51,7 @@ const Login = () => {
     <div className="min-h-screen bg-slate-50 flex flex-col justify-center py-12 px-6 lg:px-8">
       <div className="sm:mx-auto sm:w-full sm:max-w-md text-center">
         <div className="mx-auto h-16 w-16 bg-blue-600 rounded-2xl flex items-center justify-center shadow-lg shadow-blue-500/30 mb-6">
-            <MessageCircle className="h-9 w-9 text-white" />
+          <MessageCircle className="h-9 w-9 text-white" />
         </div>
         <h2 className="text-3xl font-bold tracking-tight text-slate-900 mb-2">
           {isRegistering ? 'Create Account' : 'Welcome back'}
@@ -110,7 +110,7 @@ const Login = () => {
             >
               {isRegistering ? 'Sign Up' : 'Sign In'}
             </Button>
-            
+
             <div className="text-center mt-4">
               <button
                 type="button"
@@ -120,8 +120,8 @@ const Login = () => {
                 }}
                 className="text-sm font-medium text-blue-600 hover:text-blue-500"
               >
-                {isRegistering 
-                  ? "Already have an account? Sign in" 
+                {isRegistering
+                  ? "Already have an account? Sign in"
                   : "Don't have an account? Sign up"}
               </button>
             </div>

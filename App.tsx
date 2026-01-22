@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { HashRouter as Router, Routes, Route, Navigate, useLocation, useNavigate } from 'react-router-dom';
+import { HashRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { User } from './types';
 import { chatService } from './services/chatService';
 
@@ -39,11 +39,11 @@ function App() {
 
   const logout = async () => {
     try {
-        await chatService.logout();
+      await chatService.logout();
     } catch (error) {
-        console.error("Logout error", error);
+      console.error("Logout error", error);
     } finally {
-        setUser(null);
+      setUser(null);
     }
   };
 
@@ -66,7 +66,7 @@ function App() {
 
 function AppRoutes() {
   const { user } = React.useContext(AuthContext);
-  
+
   return (
     <Routes>
       <Route path="/login" element={!user ? <Login /> : <Navigate to="/" />} />
