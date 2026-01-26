@@ -44,6 +44,7 @@ export const MOCK_USERS: Record<string, User> = {
 export const MOCK_CHATS: Chat[] = [
   {
     chatId: 'chat_1',
+    type: 'direct',
     participants: [CURRENT_USER_ID, 'user_1'],
     lastMessage: 'Sounds good! See you then.',
     lastMessageAt: new Date(Date.now() - 1000 * 60 * 5),
@@ -54,6 +55,7 @@ export const MOCK_CHATS: Chat[] = [
   },
   {
     chatId: 'chat_2',
+    type: 'direct',
     participants: [CURRENT_USER_ID, 'user_2'],
     lastMessage: 'Hey, did you get the file?',
     lastMessageAt: new Date(Date.now() - 1000 * 60 * 60 * 24),
@@ -64,6 +66,7 @@ export const MOCK_CHATS: Chat[] = [
   },
   {
     chatId: 'chat_3',
+    type: 'direct',
     participants: [CURRENT_USER_ID, 'user_3'],
     lastMessage: 'Lunch tomorrow?',
     lastMessageAt: new Date(Date.now() - 1000 * 60 * 60 * 48),
@@ -120,7 +123,7 @@ export const MOCK_MESSAGES: Record<string, Message[]> = {
     }
   ],
   'chat_3': [
-      {
+    {
       messageId: 'm3_1',
       text: 'Lunch tomorrow?',
       senderId: 'user_3',

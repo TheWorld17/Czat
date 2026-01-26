@@ -48,21 +48,21 @@ const Login = () => {
   };
 
   return (
-    <div className="min-h-screen bg-slate-50 flex flex-col justify-center py-12 px-6 lg:px-8">
+    <div className="min-h-screen bg-slate-50 dark:bg-slate-950 flex flex-col justify-center py-12 px-6 lg:px-8 transition-colors duration-200">
       <div className="sm:mx-auto sm:w-full sm:max-w-md text-center">
         <div className="mx-auto h-16 w-16 bg-blue-600 rounded-2xl flex items-center justify-center shadow-lg shadow-blue-500/30 mb-6">
           <MessageCircle className="h-9 w-9 text-white" />
         </div>
-        <h2 className="text-3xl font-bold tracking-tight text-slate-900 mb-2">
+        <h2 className="text-3xl font-bold tracking-tight text-slate-900 dark:text-white mb-2">
           {isRegistering ? 'Create Account' : 'Welcome back'}
         </h2>
-        <p className="text-slate-500 mb-8">
+        <p className="text-slate-500 dark:text-slate-400 mb-8">
           {isRegistering ? 'Sign up to start chatting' : 'Sign in to your account'}
         </p>
       </div>
 
       <div className="sm:mx-auto sm:w-full sm:max-w-md animate-fade-in">
-        <div className="bg-white py-8 px-6 shadow-xl shadow-slate-200/50 rounded-2xl sm:px-10 border border-slate-100">
+        <div className="bg-white dark:bg-slate-900 py-8 px-6 shadow-xl shadow-slate-200/50 dark:shadow-none rounded-2xl sm:px-10 border border-slate-100 dark:border-slate-800 transition-colors duration-200">
           <form className="space-y-6" onSubmit={handleSubmit}>
             {isRegistering && (
               <Input
@@ -118,7 +118,7 @@ const Login = () => {
                   setIsRegistering(!isRegistering);
                   setError('');
                 }}
-                className="text-sm font-medium text-blue-600 hover:text-blue-500"
+                className="text-sm font-medium text-blue-600 hover:text-blue-500 dark:text-blue-400 dark:hover:text-blue-300"
               >
                 {isRegistering
                   ? "Already have an account? Sign in"
