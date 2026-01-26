@@ -5,7 +5,7 @@ import { Chat, User, Message } from '../types';
 import { chatService } from '../services/chatService';
 import Avatar from '../components/Avatar';
 import CreateGroupModal from '../components/CreateGroupModal';
-import { Search, LogOut, UserPlus, X, Moon, Sun, Users, Pin, VolumeX, MessageSquare, Archive } from 'lucide-react';
+import { Search, LogOut, UserCircle, UserPlus, X, Moon, Sun, Users, Pin, VolumeX, MessageSquare, Archive } from 'lucide-react';
 import { AuthContext } from '../App';
 import { useTheme } from '../services/ThemeContext';
 import { clsx } from 'clsx';
@@ -97,7 +97,7 @@ const ChatList = () => {
               <Users className="w-5 h-5" />
             </button>
             <button title="Profile" onClick={() => navigate('/profile')} className="p-2.5 rounded-full hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-600 dark:text-slate-300 transition-colors">
-              <UserPlus className="w-5 h-5" />
+              <UserCircle className="w-5 h-5" />
             </button>
             <button title="Logout" onClick={logout} className="p-2.5 rounded-full hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-600 dark:text-slate-300 transition-colors">
               <LogOut className="w-5 h-5" />
