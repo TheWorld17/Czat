@@ -53,9 +53,9 @@ const Login = () => {
         <div className="mx-auto h-16 w-16 bg-blue-600 rounded-2xl flex items-center justify-center shadow-lg shadow-blue-500/30 mb-6">
           <MessageCircle className="h-9 w-9 text-white" />
         </div>
-        <h2 className="text-3xl font-bold tracking-tight text-slate-900 dark:text-white mb-2">
+        <h1 className="text-3xl font-bold tracking-tight text-slate-900 dark:text-white mb-2">
           {isRegistering ? 'Create Account' : 'Welcome back'}
-        </h2>
+        </h1>
         <p className="text-slate-500 dark:text-slate-400 mb-8">
           {isRegistering ? 'Sign up to start chatting' : 'Sign in to your account'}
         </p>

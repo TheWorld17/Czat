@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+
+# Sitemap would go here if available
+# Sitemap: https://czat.vercel.app/sitemap.xml

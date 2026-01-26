@@ -232,7 +232,7 @@ class ChatService {
     const snapshot = await getDocs(q);
     const existingChat = snapshot.docs.find(doc => {
       const data = doc.data();
-      return data.participants.includes(otherUserId);
+      return data.type === 'direct' && data.participants.includes(otherUserId);
     });
 
     if (existingChat) return existingChat.id;
