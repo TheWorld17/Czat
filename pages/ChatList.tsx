@@ -89,17 +89,17 @@ const ChatList = () => {
               <span className="text-xs bg-slate-100 dark:bg-slate-800 text-slate-500 px-2 py-0.5 rounded-full">Archived</span>
             )}
           </div>
-          <div className="flex gap-1">
-            <button title="Toggle Theme" onClick={toggleTheme} className="p-2 rounded-full hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-600 dark:text-slate-300 transition-colors">
+          <div className="flex gap-2">
+            <button title="Toggle Theme" onClick={toggleTheme} className="p-2.5 rounded-full hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-600 dark:text-slate-300 transition-colors">
               {theme === 'dark' ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
             </button>
-            <button title="New Group" onClick={() => setIsCreateGroupOpen(true)} className="p-2 rounded-full hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-600 dark:text-slate-300 transition-colors">
+            <button title="New Group" onClick={() => setIsCreateGroupOpen(true)} className="p-2.5 rounded-full hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-600 dark:text-slate-300 transition-colors">
               <Users className="w-5 h-5" />
             </button>
-            <button title="Profile" onClick={() => navigate('/profile')} className="p-2 rounded-full hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-600 dark:text-slate-300 transition-colors">
+            <button title="Profile" onClick={() => navigate('/profile')} className="p-2.5 rounded-full hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-600 dark:text-slate-300 transition-colors">
               <UserPlus className="w-5 h-5" />
             </button>
-            <button title="Logout" onClick={logout} className="p-2 rounded-full hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-600 dark:text-slate-300 transition-colors">
+            <button title="Logout" onClick={logout} className="p-2.5 rounded-full hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-600 dark:text-slate-300 transition-colors">
               <LogOut className="w-5 h-5" />
             </button>
           </div>
@@ -122,19 +122,19 @@ const ChatList = () => {
         </div>
 
         {/* Search */}
-        <div className="relative">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
+        <div className="relative group">
+          <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 group-focus-within:text-blue-500 transition-colors" />
           <input
             type="text"
             placeholder="Search users or messages..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            className="w-full bg-slate-100 dark:bg-slate-900 text-slate-900 dark:text-white text-sm rounded-xl py-2.5 pl-9 pr-10 focus:outline-none focus:ring-2 focus:ring-blue-500/20 dark:placeholder-slate-500"
+            className="w-full bg-slate-100 dark:bg-slate-900 text-slate-900 dark:text-white text-base md:text-sm rounded-xl py-3 md:py-2.5 pl-10 pr-10 focus:outline-none focus:ring-2 focus:ring-blue-500/20 dark:placeholder-slate-500 transition-all"
           />
           {searchTerm && (
             <button
               onClick={() => setSearchTerm('')}
-              className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 p-1"
+              className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 p-1.5"
             >
               <X className="w-4 h-4" />
             </button>
@@ -253,7 +253,7 @@ const ChatList = () => {
                 <li key={chat.chatId} className="group/item relative">
                   <button
                     onClick={() => handleChatClick(chat.chatId)}
-                    className="w-full px-4 py-4 flex items-center gap-4 hover:bg-slate-50 dark:hover:bg-slate-900/50 transition-colors text-left"
+                    className="w-full px-4 py-4 flex items-center gap-3 sm:gap-4 hover:bg-slate-50 dark:hover:bg-slate-900/50 transition-colors text-left active:bg-slate-100 dark:active:bg-slate-900"
                   >
                     <Avatar
                       name={displayName || 'User'}

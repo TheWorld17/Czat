@@ -277,11 +277,11 @@ const ChatScreen = () => {
                 isOnline={chatInfo?.type === 'direct' ? chatInfo?.otherUser?.isOnline : false}
                 size="sm"
               />
-              <div>
-                <h2 className="text-sm font-bold text-slate-900 dark:text-white leading-tight">
+              <div className="min-w-0 pr-2">
+                <h2 className="text-sm font-bold text-slate-900 dark:text-white leading-tight truncate">
                   {headerTitle || 'Loading...'}
                 </h2>
-                <p className="text-xs text-slate-500 dark:text-slate-400 leading-tight">
+                <p className="text-xs text-slate-500 dark:text-slate-400 leading-tight truncate">
                   {headerSub}
                 </p>
               </div>
@@ -297,7 +297,7 @@ const ChatScreen = () => {
                 setSelfDestructMinutes(durations[nextIndex]);
               }}
               className={clsx(
-                "p-2.5 rounded-full transition-all relative group",
+                "p-2 rounded-full transition-all relative group",
                 selfDestructMinutes ? "text-orange-500 bg-orange-50 dark:bg-orange-900/20" : "hover:bg-blue-50 dark:hover:bg-slate-800 text-slate-400"
               )}
               title={selfDestructMinutes ? `Self-destruct: ${selfDestructMinutes}m` : "Self-destruct Off"}
@@ -309,20 +309,20 @@ const ChatScreen = () => {
                 </span>
               )}
             </button>
-            <button className="p-2.5 rounded-full hover:bg-blue-50 dark:hover:bg-slate-800 transition-colors">
+            <button className="p-2 rounded-full hover:bg-blue-50 dark:hover:bg-slate-800 transition-colors">
               <Search className="w-5 h-5" />
             </button>
-            <button className="hidden md:block p-2.5 rounded-full hover:bg-blue-50 dark:hover:bg-slate-800 transition-colors">
+            <button className="hidden sm:block p-2 rounded-full hover:bg-blue-50 dark:hover:bg-slate-800 transition-colors">
               <Phone className="w-5 h-5" />
             </button>
-            <button className="hidden md:block p-2.5 rounded-full hover:bg-blue-50 dark:hover:bg-slate-800 transition-colors">
+            <button className="hidden sm:block p-2 rounded-full hover:bg-blue-50 dark:hover:bg-slate-800 transition-colors">
               <Video className="w-5 h-5" />
             </button>
             <div className="relative">
               <button
                 onClick={() => setShowInfo(!showInfo)}
                 className={clsx(
-                  "p-2.5 rounded-full transition-colors",
+                  "p-2 rounded-full transition-colors",
                   showInfo ? "bg-blue-50 dark:bg-slate-800 text-blue-600" : "hover:bg-blue-50 dark:hover:bg-slate-800 text-slate-400"
                 )}
               >
@@ -390,7 +390,7 @@ const ChatScreen = () => {
                 )}
 
                 <div className={clsx("flex w-full animate-fade-in group/message relative", isMe ? "justify-end" : "justify-start")}>
-                  <div className={clsx("flex max-w-[75%] gap-2 relative", isMe ? "flex-row-reverse" : "flex-row")}>
+                  <div className={clsx("flex max-w-[85%] md:max-w-[75%] gap-2 relative", isMe ? "flex-row-reverse" : "flex-row")}>
 
                     {/* Actions Menu */}
                     <div className={clsx(
@@ -528,7 +528,7 @@ const ChatScreen = () => {
             </div>
           )}
 
-          <form onSubmit={handleSend} className="flex items-end gap-2 bg-slate-100 dark:bg-slate-900 rounded-[24px] p-1.5 pl-4 relative">
+          <form onSubmit={handleSend} className="flex items-end gap-2 bg-slate-100 dark:bg-slate-900 rounded-[24px] p-1.5 pl-4 relative border border-slate-200/50 dark:border-slate-800/50">
             <input
               ref={inputRef}
               className="flex-1 bg-transparent py-2.5 text-slate-900 dark:text-white placeholder-slate-500 focus:outline-none"

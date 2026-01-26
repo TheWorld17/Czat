@@ -44,11 +44,11 @@ const Avatar: React.FC<AvatarProps> = ({ src, name, isOnline, size = 'md', class
           <span>{initials}</span>
         )}
       </div>
-      
+
       {isOnline !== undefined && (
         <span
           className={clsx(
-            'absolute bottom-0 right-0 rounded-full box-content border-white',
+            'absolute bottom-0 right-0 rounded-full box-content border-2 border-white dark:border-slate-950 translate-x-[10%] translate-y-[10%]',
             isOnline ? 'bg-emerald-500' : 'bg-slate-400',
             statusSizeClasses[size]
           )}
