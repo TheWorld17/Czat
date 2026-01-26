@@ -107,136 +107,147 @@ const GroupInfoPanel: React.FC<GroupInfoPanelProps> = ({
     };
 
     return (
-        <div className="w-80 border-l border-slate-100 dark:border-slate-800 bg-white dark:bg-slate-950 flex flex-col h-full animate-slide-left overflow-hidden">
-            {/* Header */}
-            <div className="p-4 border-b border-slate-100 dark:border-slate-800 flex items-center justify-between">
-                <h2 className="font-bold text-slate-900 dark:text-white">Group Info</h2>
-                <button onClick={onClose} className="p-1 rounded-full hover:bg-slate-100 dark:hover:bg-slate-800">
-                    <X className="w-5 h-5 text-slate-500" />
-                </button>
-            </div>
+        <>
+            {/* Backdrop for mobile */}
+            <div
+                className="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-[60] md:hidden animate-fade-in"
+                onClick={onClose}
+            />
 
-            <div className="flex-1 overflow-y-auto">
-                {/* Info Section */}
-                <div className="p-6 flex flex-col items-center border-b border-slate-100 dark:border-slate-800">
-                    <div className="mb-4">
-                        <Avatar name={chat.name || 'Group'} size="lg" className="w-20 h-20 text-2xl shadow-lg ring-4 ring-slate-50 dark:ring-slate-900" />
-                    </div>
-                    <h3 className="text-xl font-extrabold text-slate-900 dark:text-white text-center break-words w-full px-2">{chat.name}</h3>
-                    <p className="text-sm text-slate-500 text-center mt-2 px-2 italic">{chat.description || 'No description provided'}</p>
-                    <div className="mt-4 bg-slate-100 dark:bg-slate-800 px-3 py-1 rounded-full">
-                        <p className="text-[10px] text-slate-500 font-black uppercase tracking-widest leading-none">{chat.participants.length} Members</p>
-                    </div>
-                </div>
-
-                {/* Member List */}
-                <div className="p-4">
-                    <h4 className="text-[11px] font-black text-slate-400 uppercase mb-4 tracking-widest">Members Directory</h4>
-                    <ul className="space-y-1">
-                        {chat.groupMembers?.map(member => {
-                            const itemIsAdmin = chat.admins?.includes(member.userId);
-                            const isSelf = member.userId === currentUser?.userId;
-
-                            return (
-                                <li key={member.userId} className="group/member p-2.5 hover:bg-slate-50 dark:hover:bg-slate-900 rounded-2xl transition-all">
-                                    <div className="flex items-center gap-3">
-                                        <Avatar name={member.displayName} src={member.photoURL} isOnline={member.isOnline} size="sm" />
-                                        <div className="flex-1 min-w-0">
-                                            <p className="text-sm font-bold text-slate-900 dark:text-white truncate flex items-center gap-1.5">
-                                                {member.displayName} {isSelf && <span className="text-[9px] bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-400 px-1.5 py-0.5 rounded-full font-black uppercase tracking-tighter">You</span>}
-                                            </p>
-                                            <p className="text-[10px] text-slate-500 font-medium">{itemIsAdmin ? 'Group Admin' : 'Member'}</p>
-                                        </div>
-                                        {itemIsAdmin && !isSelf && (
-                                            <ShieldAlert className="w-4 h-4 text-blue-500/30" />
-                                        )}
-                                    </div>
-
-                                    {!isSelf && (
-                                        <div className="flex gap-1 justify-end mt-2 opacity-0 group-hover/member:opacity-100 transition-opacity">
-                                            {isAdmin && (
-                                                <>
-                                                    {!itemIsAdmin && (
-                                                        <button
-                                                            onClick={() => handleMakeAdmin(member.userId)}
-                                                            disabled={!!loading}
-                                                            title="Make Admin"
-                                                            className="p-1.5 rounded-full hover:bg-blue-50 dark:hover:bg-blue-900/30 text-blue-500 transition-colors"
-                                                        >
-                                                            <Shield className="w-4 h-4" />
-                                                        </button>
-                                                    )}
-                                                    <button
-                                                        onClick={() => handleRemoveMember(member.userId)}
-                                                        disabled={!!loading}
-                                                        title="Remove Member"
-                                                        className="p-1.5 rounded-full hover:bg-red-50 dark:hover:bg-red-900/30 text-red-500 transition-colors"
-                                                    >
-                                                        <UserMinus className="w-4 h-4" />
-                                                    </button>
-                                                </>
-                                            )}
-                                            <button
-                                                onClick={() => handleBlockUser(member.userId)}
-                                                disabled={!!loading}
-                                                title="Block User"
-                                                className="p-1.5 rounded-full hover:bg-orange-50 dark:hover:bg-orange-900/10 text-orange-500 transition-colors"
-                                            >
-                                                <Ban className="w-4 h-4" />
-                                            </button>
-                                            <button
-                                                onClick={() => setReportingUser({ id: member.userId, name: member.displayName })}
-                                                disabled={!!loading}
-                                                title="Report User"
-                                                className="p-1.5 rounded-full hover:bg-red-50 dark:hover:bg-red-900/10 text-red-400 transition-colors"
-                                            >
-                                                <Flag className="w-4 h-4" />
-                                            </button>
-                                        </div>
-                                    )}
-                                </li>
-                            );
-                        })}
-                    </ul>
-                </div>
-            </div>
-
-            {/* Primary Actions */}
-            <div className="p-4 border-t border-slate-100 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-900/30 space-y-2">
-                {isAdmin && (
+            <div className="fixed inset-y-0 right-0 w-[85%] max-w-[320px] bg-white dark:bg-slate-950 flex flex-col h-full z-[70] animate-slide-left overflow-hidden shadow-2xl md:relative md:w-80 md:shadow-none md:border-l md:border-slate-100 md:dark:border-slate-800 md:z-0">
+                {/* Header */}
+                <div className="p-4 border-b border-slate-100 dark:border-slate-800 flex items-center justify-between bg-white dark:bg-slate-950 sticky top-0 z-10">
+                    <h2 className="font-bold text-slate-900 dark:text-white truncate pr-2">Group Info</h2>
                     <button
-                        onClick={handleClearHistory}
-                        disabled={!!loading}
-                        className="w-full flex items-center justify-center gap-2 px-4 py-2.5 text-xs font-black uppercase tracking-widest text-red-600 hover:bg-red-600 hover:text-white rounded-xl transition-all border border-red-200 dark:border-red-900/30"
+                        onClick={onClose}
+                        className="p-2 -mr-1 rounded-full hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-500 transition-colors"
                     >
-                        <Trash2 className="w-3.5 h-3.5" />
-                        Clear Chat History
+                        <X className="w-5 h-5" />
                     </button>
-                )}
-                <button
-                    onClick={handleLeaveGroup}
-                    disabled={!!loading}
-                    className="w-full flex items-center justify-center gap-2 px-4 py-2.5 text-xs font-black uppercase tracking-widest text-slate-600 dark:text-slate-400 hover:bg-slate-900 dark:hover:bg-white hover:text-white dark:hover:text-slate-900 rounded-xl transition-all border border-slate-200 dark:border-slate-800"
-                >
-                    <LogOut className="w-3.5 h-3.5" />
-                    Leave Group
-                </button>
-            </div>
+                </div>
 
-            {/* Modals */}
-            {reportingUser && (
-                <ReportUserModal
-                    isOpen={!!reportingUser}
-                    onClose={() => setReportingUser(null)}
-                    userId={reportingUser.id}
-                    userName={reportingUser.name}
-                    onSuccess={() => {
-                        onSuccess('Report submitted');
-                        setReportingUser(null);
-                    }}
-                />
-            )}
-        </div>
+                <div className="flex-1 overflow-y-auto">
+                    {/* Info Section */}
+                    <div className="p-6 flex flex-col items-center border-b border-slate-100 dark:border-slate-800">
+                        <div className="mb-4">
+                            <Avatar name={chat.name || 'Group'} size="lg" className="w-20 h-20 text-2xl shadow-lg ring-4 ring-slate-50 dark:ring-slate-900" />
+                        </div>
+                        <h3 className="text-xl font-extrabold text-slate-900 dark:text-white text-center break-words w-full px-2">{chat.name}</h3>
+                        <p className="text-sm text-slate-500 text-center mt-2 px-2 italic">{chat.description || 'No description provided'}</p>
+                        <div className="mt-4 bg-slate-100 dark:bg-slate-800 px-3 py-1 rounded-full">
+                            <p className="text-[10px] text-slate-500 font-black uppercase tracking-widest leading-none">{chat.participants.length} Members</p>
+                        </div>
+                    </div>
+
+                    {/* Member List */}
+                    <div className="p-4">
+                        <h4 className="text-[11px] font-black text-slate-400 uppercase mb-4 tracking-widest">Members Directory</h4>
+                        <ul className="space-y-1">
+                            {chat.groupMembers?.map(member => {
+                                const itemIsAdmin = chat.admins?.includes(member.userId);
+                                const isSelf = member.userId === currentUser?.userId;
+
+                                return (
+                                    <li key={member.userId} className="group/member p-2.5 hover:bg-slate-50 dark:hover:bg-slate-900 rounded-2xl transition-all">
+                                        <div className="flex items-center gap-3">
+                                            <Avatar name={member.displayName} src={member.photoURL} isOnline={member.isOnline} size="sm" />
+                                            <div className="flex-1 min-w-0">
+                                                <p className="text-sm font-bold text-slate-900 dark:text-white truncate flex items-center gap-1.5">
+                                                    {member.displayName} {isSelf && <span className="text-[9px] bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-400 px-1.5 py-0.5 rounded-full font-black uppercase tracking-tighter">You</span>}
+                                                </p>
+                                                <p className="text-[10px] text-slate-500 font-medium">{itemIsAdmin ? 'Group Admin' : 'Member'}</p>
+                                            </div>
+                                            {itemIsAdmin && !isSelf && (
+                                                <ShieldAlert className="w-4 h-4 text-blue-500/30" />
+                                            )}
+                                        </div>
+
+                                        {!isSelf && (
+                                            <div className="flex gap-1 justify-end mt-2 opacity-0 group-hover/member:opacity-100 transition-opacity">
+                                                {isAdmin && (
+                                                    <>
+                                                        {!itemIsAdmin && (
+                                                            <button
+                                                                onClick={() => handleMakeAdmin(member.userId)}
+                                                                disabled={!!loading}
+                                                                title="Make Admin"
+                                                                className="p-1.5 rounded-full hover:bg-blue-50 dark:hover:bg-blue-900/30 text-blue-500 transition-colors"
+                                                            >
+                                                                <Shield className="w-4 h-4" />
+                                                            </button>
+                                                        )}
+                                                        <button
+                                                            onClick={() => handleRemoveMember(member.userId)}
+                                                            disabled={!!loading}
+                                                            title="Remove Member"
+                                                            className="p-1.5 rounded-full hover:bg-red-50 dark:hover:bg-red-900/30 text-red-500 transition-colors"
+                                                        >
+                                                            <UserMinus className="w-4 h-4" />
+                                                        </button>
+                                                    </>
+                                                )}
+                                                <button
+                                                    onClick={() => handleBlockUser(member.userId)}
+                                                    disabled={!!loading}
+                                                    title="Block User"
+                                                    className="p-1.5 rounded-full hover:bg-orange-50 dark:hover:bg-orange-900/10 text-orange-500 transition-colors"
+                                                >
+                                                    <Ban className="w-4 h-4" />
+                                                </button>
+                                                <button
+                                                    onClick={() => setReportingUser({ id: member.userId, name: member.displayName })}
+                                                    disabled={!!loading}
+                                                    title="Report User"
+                                                    className="p-1.5 rounded-full hover:bg-red-50 dark:hover:bg-red-900/10 text-red-400 transition-colors"
+                                                >
+                                                    <Flag className="w-4 h-4" />
+                                                </button>
+                                            </div>
+                                        )}
+                                    </li>
+                                );
+                            })}
+                        </ul>
+                    </div>
+                </div>
+
+                {/* Primary Actions */}
+                <div className="p-4 border-t border-slate-100 dark:border-slate-800 bg-white dark:bg-slate-950 sticky bottom-0 space-y-2">
+                    {isAdmin && (
+                        <button
+                            onClick={handleClearHistory}
+                            disabled={!!loading}
+                            className="w-full flex items-center justify-center gap-2 px-4 py-3 text-[11px] font-black uppercase tracking-widest text-red-600 hover:bg-red-600 hover:text-white rounded-xl transition-all border border-red-100 dark:border-red-900/30 active:scale-[0.98]"
+                        >
+                            <Trash2 className="w-4 h-4" />
+                            Clear History
+                        </button>
+                    )}
+                    <button
+                        onClick={handleLeaveGroup}
+                        disabled={!!loading}
+                        className="w-full flex items-center justify-center gap-2 px-4 py-3 text-[11px] font-black uppercase tracking-widest text-slate-600 dark:text-slate-400 hover:bg-slate-900 dark:hover:bg-white hover:text-white dark:hover:text-slate-900 rounded-xl transition-all border border-slate-200 dark:border-slate-800 active:scale-[0.98]"
+                    >
+                        <LogOut className="w-4 h-4" />
+                        Leave Group
+                    </button>
+                </div>
+
+                {/* Modals */}
+                {reportingUser && (
+                    <ReportUserModal
+                        isOpen={!!reportingUser}
+                        onClose={() => setReportingUser(null)}
+                        userId={reportingUser.id}
+                        userName={reportingUser.name}
+                        onSuccess={() => {
+                            onSuccess('Report submitted');
+                            setReportingUser(null);
+                        }}
+                    />
+                )}
+            </div>
+        </>
     );
 };
 

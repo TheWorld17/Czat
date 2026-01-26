@@ -39,9 +39,9 @@ const Avatar: React.FC<AvatarProps> = ({ src, name, isOnline, size = 'md', class
         )}
       >
         {src ? (
-          <img src={src} alt={name} className="w-full h-full object-cover" />
+          <img src={src} alt={`${name}'s avatar`} className="w-full h-full object-cover" loading="lazy" />
         ) : (
-          <span>{initials}</span>
+          <span aria-label={name}>{initials}</span>
         )}
       </div>
 
